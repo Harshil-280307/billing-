@@ -4,23 +4,181 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Billing Entry</title>
-  <style>
-    :root{--bg:#f4f7fb;--card:#fff;--accent:#2b9bd7;--accent2:#60c0e8}
-    body{font-family:Inter,Segoe UI,Roboto,Arial;margin:0;background:linear-gradient(180deg,#e6f7ff, #f4f7fb);min-height:100vh;display:flex;align-items:center;justify-content:center;padding:24px}
-    .wrap{width:980px;display:grid;grid-template-columns:1fr 360px;gap:24px}
-    .card{background:var(--card);border-radius:12px;padding:20px;box-shadow:0 8px 30px rgba(32,41,50,0.08)}
-    h1{margin:0 0 8px;font-size:20px;color:#123}
-    label{display:block;margin-top:12px;font-size:13px;color:#334}
-    input{width:100%;padding:10px;border-radius:8px;border:1px solid #d6e6f2;outline:none;font-size:14px}
-    input:focus{box-shadow:0 6px 18px rgba(43,155,215,0.12);border-color:var(--accent)}
-    .btn{display:inline-block;margin-top:16px;padding:10px 14px;border-radius:10px;background:linear-gradient(90deg,var(--accent),var(--accent2));color:#fff;border:none;font-weight:600;cursor:pointer}
-    .muted{color:#6b7a85;font-size:13px}
-    .preview{background:#fbfdff;border-radius:8px;padding:14px;border:1px solid #e6f7ff}
-    .row{display:flex;gap:8px}
-    .small{font-size:13px;color:#445}
-    .success{color:green;margin-top:10px;font-weight:600}
-    .error{color:#b00020;margin-top:10px;font-weight:600}
-  </style>
+ <style>
+:root {
+  --bg:#f4f7fb;
+  --card:#fff;
+  --accent:#2b9bd7;
+  --accent2:#60c0e8;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: Inter, Segoe UI, Roboto, Arial, sans-serif;
+  background: linear-gradient(180deg, #e6f7ff, #f4f7fb);
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+}
+
+.wrap {
+  width: 100%;
+  max-width: 980px;
+  display: grid;
+  grid-template-columns: 1fr 360px;
+  gap: 24px;
+}
+
+.card {
+  background: var(--card);
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 0 8px 30px rgba(32,41,50,0.08);
+  width: 100%;
+}
+
+h1 {
+  margin-bottom: 8px;
+  font-size: 20px;
+  color: #123;
+}
+
+label {
+  display: block;
+  margin-top: 12px;
+  font-size: 13px;
+  color: #334;
+}
+
+input {
+  width: 100%;
+  padding: 10px;
+  border-radius: 8px;
+  border: 1px solid #d6e6f2;
+  outline: none;
+  font-size: 14px;
+}
+
+input:focus {
+  box-shadow: 0 6px 18px rgba(43,155,215,0.12);
+  border-color: var(--accent);
+}
+
+.btn {
+  display: inline-block;
+  margin-top: 16px;
+  padding: 10px 14px;
+  border-radius: 10px;
+  background: linear-gradient(90deg, var(--accent), var(--accent2));
+  color: #fff;
+  border: none;
+  font-weight: 600;
+  cursor: pointer;
+  width: 100%;
+  text-align: center;
+}
+
+.muted {
+  color: #6b7a85;
+  font-size: 13px;
+}
+
+.preview {
+  background: #fbfdff;
+  border-radius: 8px;
+  padding: 14px;
+  border: 1px solid #e6f7ff;
+  width: 100%;
+}
+
+.row {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.row > div {
+  flex: 1 1 0;
+  min-width: 100px;
+}
+
+.small {
+  font-size: 13px;
+  color: #445;
+}
+
+.success {
+  color: green;
+  margin-top: 10px;
+  font-weight: 600;
+}
+
+.error {
+  color: #b00020;
+  margin-top: 10px;
+  font-weight: 600;
+}
+
+/* ======= RESPONSIVE ======= */
+@media (max-width: 980px) {
+  .wrap {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media (max-width: 800px) {
+  .wrap {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 600px) {
+  body {
+    padding: 12px;
+  }
+
+  h1 {
+    font-size: 18px;
+  }
+
+  input, .btn {
+    font-size: 14px;
+    padding: 8px;
+  }
+
+  .row {
+    flex-direction: column;
+  }
+
+  .row > div {
+    width: 100%;
+  }
+}
+
+@media (max-width: 400px) {
+  h1 {
+    font-size: 16px;
+  }
+
+  input, .btn {
+    font-size: 13px;
+    padding: 6px;
+  }
+
+  .preview {
+    font-size: 12px;
+    padding: 10px;
+  }
+}
+</style>
+
 </head>
 <body>
   <div class="wrap">
