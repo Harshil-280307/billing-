@@ -237,114 +237,259 @@ input:focus {
   </div>
 
 <script>
-  // ========== CONFIG - replace these ==========
-  const WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbzbluN5AvAAHwtEaAuflFeTO7ldUaELJnr3sDKLZDEFS53w0W5rbPWJvFt8GlcWuyE9XA/exec';   // put your Apps Script /exec URL
-  const SECRET = 'e404';            // must match WRITE_SECRET in Code.gs
-  // =============================================
+//   // ========== CONFIG - replace these ==========
+//   const WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbzbluN5AvAAHwtEaAuflFeTO7ldUaELJnr3sDKLZDEFS53w0W5rbPWJvFt8GlcWuyE9XA/exec';   // put your Apps Script /exec URL
+//   const SECRET = 'e404';            // must match WRITE_SECRET in Code.gs
+//   // =============================================
 
-  function __(id){return document.getElementById(id)}
+//   function __(id){return document.getElementById(id)}
 
-  function updatePreview(){
-    const name = __('customerName').value;
-    const mobile = __('mobile').value;
-    const item = __('item').value;
-    const qty = Number(__('qty').value) || 0;
-    const price = Number(__('price').value) || 0;
-    __('pvName').innerText = name;
-    __('pvMobile').innerText = mobile;
-    __('pvItem').innerText = item;
-    __('pvQty').innerText = qty;
-    __('pvPrice').innerText = price;
-    __('pvTotal').innerText = (qty*price).toFixed(2);
-  }
-  updatePreview();
+//   function updatePreview(){
+//     const name = __('customerName').value;
+//     const mobile = __('mobile').value;
+//     const item = __('item').value;
+//     const qty = Number(__('qty').value) || 0;
+//     const price = Number(__('price').value) || 0;
+//     __('pvName').innerText = name;
+//     __('pvMobile').innerText = mobile;
+//     __('pvItem').innerText = item;
+//     __('pvQty').innerText = qty;
+//     __('pvPrice').innerText = price;
+//     __('pvTotal').innerText = (qty*price).toFixed(2);
+//   }
+//   updatePreview();
 
-  async function submitData(){
-    // small validation
-    const name = __('customerName').value.trim();
-    const mobile = __('mobile').value.trim();
-    const item = __('item').value.trim();
-    const qty = Number(__('qty').value) || 0;
-    const price = Number(__('price').value) || 0;
-    const msgArea = __('msgArea');
-    msgArea.innerHTML = '';
+//   async function submitData(){
+//     // small validation
+//     const name = __('customerName').value.trim();
+//     const mobile = __('mobile').value.trim();
+//     const item = __('item').value.trim();
+//     const qty = Number(__('qty').value) || 0;
+//     const price = Number(__('price').value) || 0;
+//     const msgArea = __('msgArea');
+//     msgArea.innerHTML = '';
 
-    if (!item || qty<=0 || price<=0){
-      msgArea.innerHTML = '<div class="error">Please enter item, quantity and price (qty & price > 0).</div>';
-      return;
-    }
+//     if (!item || qty<=0 || price<=0){
+//       msgArea.innerHTML = '<div class="error">Please enter item, quantity and price (qty & price > 0).</div>';
+//       return;
+//     }
 
-    __('saveBtn').disabled = true;
-    __('saveBtn').innerText = 'Saving...';
+//     __('saveBtn').disabled = true;
+//     __('saveBtn').innerText = 'Saving...';
 
-    // Use form-encoded body to avoid preflight (simple request)
-    const params = new URLSearchParams();
-    params.append('customerName', name);
-    params.append('mobile', mobile);
-    params.append('item', item);
-    params.append('qty', qty);
-    params.append('price', price);
-    params.append('secret', SECRET);
+//     // Use form-encoded body to avoid preflight (simple request)
+//     const params = new URLSearchParams();
+//     params.append('customerName', name);
+//     params.append('mobile', mobile);
+//     params.append('item', item);
+//     params.append('qty', qty);
+//     params.append('price', price);
+//     params.append('secret', SECRET);
 
-    try {
-      const resp = await fetch(WEB_APP_URL, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8' },
-        body: params.toString()
-      });
-      const text = await resp.text();
-      let j;
-      try { j = JSON.parse(text); } catch(e){ j = { status:'error', message: text }; }
-      if (j.status && j.status === 'success') {
-        msgArea.innerHTML = '<div class="success">Saved ✓ Invoice: ' + (j.invoice || '') + '</div>';
-        // clear inputs
-        __('customerName').value = '';
-        __('mobile').value = '';
-        __('item').value = '';
-        __('qty').value = 1;
-        __('price').value = 0;
-        updatePreview();
-      } else {
-        msgArea.innerHTML = '<div class="error">Error: ' + (j.message || 'Unknown') + '</div>';
-      }
-    } catch (err) {
-      msgArea.innerHTML = '<div class="error">Network/Server error: ' + err.message + '</div>';
-    } finally {
-      __('saveBtn').disabled = false;
-      __('saveBtn').innerText = 'Save to Sheet';
-    }
-  }
+//     try {
+//       const resp = await fetch(WEB_APP_URL, {
+//         method: 'POST',
+//         headers: { 'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8' },
+//         body: params.toString()
+//       });
+//       const text = await resp.text();
+//       let j;
+//       try { j = JSON.parse(text); } catch(e){ j = { status:'error', message: text }; }
+//       if (j.status && j.status === 'success') {
+//         msgArea.innerHTML = '<div class="success">Saved ✓ Invoice: ' + (j.invoice || '') + '</div>';
+//         // clear inputs
+//         __('customerName').value = '';
+//         __('mobile').value = '';
+//         __('item').value = '';
+//         __('qty').value = 1;
+//         __('price').value = 0;
+//         updatePreview();
+//       } else {
+//         msgArea.innerHTML = '<div class="error">Error: ' + (j.message || 'Unknown') + '</div>';
+//       }
+//     } catch (err) {
+//       msgArea.innerHTML = '<div class="error">Network/Server error: ' + err.message + '</div>';
+//     } finally {
+//       __('saveBtn').disabled = false;
+//       __('saveBtn').innerText = 'Save to Sheet';
+//     }
+//   }
 
 
   
-  // Store last saved invoice data
+//   // Store last saved invoice data
+// let lastInvoiceData = null;
+
+// async function submitData(){
+//   // ... existing code remains unchanged ...
+//   if (j.status && j.status === 'success') {
+//     lastInvoiceData = { 
+//       customerName: name,
+//       mobile: mobile,
+//       item: item,
+//       qty: qty,
+//       price: price,
+//       total: (qty*price).toFixed(2),
+//       invoice: j.invoice || ''
+//     };
+//     msgArea.innerHTML = '<div class="success">Saved ✓ Invoice: ' + (j.invoice || '') + '</div>';
+//     // clear inputs
+//     __('customerName').value = '';
+//     __('mobile').value = '';
+//     __('item').value = '';
+//     __('qty').value = 1;
+//     __('price').value = 0;
+//     updatePreview();
+//   }
+//   // ... rest unchanged ...
+// }
+
+// // Print invoice in billing format
+// function printInvoice(){
+//   if(!lastInvoiceData){
+//     alert("No invoice to print. Save first!");
+//     return;
+//   }
+//   const printWindow = window.open('', '', 'width=800,height=600');
+//   printWindow.document.write(`
+//     <html>
+//     <head>
+//       <title>Invoice ${lastInvoiceData.invoice || ''}</title>
+//       <style>
+//         body{font-family:Arial,sans-serif;padding:20px;}
+//         h2{text-align:center;}
+//         table{width:100%;border-collapse:collapse;margin-top:20px;}
+//         td, th{border:1px solid #000;padding:8px;text-align:left;}
+//         th{background:#f2f2f2;}
+//         .total{text-align:right;font-weight:bold;}
+//       </style>
+//     </head>
+//     <body>
+//       <h2>Invoice ${lastInvoiceData.invoice || ''}</h2>
+//       <p><strong>Customer:</strong> ${lastInvoiceData.customerName}</p>
+//       <p><strong>Mobile:</strong> ${lastInvoiceData.mobile}</p>
+//       <table>
+//         <tr><th>Item / Service</th><th>Qty</th><th>Price</th><th>Total</th></tr>
+//         <tr>
+//           <td>${lastInvoiceData.item}</td>
+//           <td>${lastInvoiceData.qty}</td>
+//           <td>₹ ${lastInvoiceData.price}</td>
+//           <td>₹ ${lastInvoiceData.total}</td>
+//         </tr>
+//         <tr>
+//           <td colspan="3" class="total">Grand Total</td>
+//           <td>₹ ${lastInvoiceData.total}</td>
+//         </tr>
+//       </table>
+//     </body>
+//     </html>
+//   `);
+//   printWindow.document.close();
+//   printWindow.print();
+// }
+
+// // Download invoice as PDF using browser print
+// function downloadInvoice(){
+//   printInvoice(); // Browsers allow "Save as PDF" in print dialog
+// }
+
+
+// ========== CONFIG - replace these ==========
+const WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbzbluN5AvAAHwtEaAuflFeTO7ldUaELJnr3sDKLZDEFS53w0W5rbPWJvFt8GlcWuyE9XA/exec'; // put your Apps Script /exec URL
+const SECRET = 'e404'; // must match WRITE_SECRET in Code.gs
+// =============================================
+
+function __(id){return document.getElementById(id)}
+
+// ================= PREVIEW UPDATE =================
+function updatePreview(){
+  const name = __('customerName').value;
+  const mobile = __('mobile').value;
+  const item = __('item').value;
+  const qty = Number(__('qty').value) || 0;
+  const price = Number(__('price').value) || 0;
+  __('pvName').innerText = name;
+  __('pvMobile').innerText = mobile;
+  __('pvItem').innerText = item;
+  __('pvQty').innerText = qty;
+  __('pvPrice').innerText = price;
+  __('pvTotal').innerText = (qty*price).toFixed(2);
+}
+updatePreview();
+
+// ================= GLOBAL STORAGE =================
 let lastInvoiceData = null;
 
+// ================= SAVE TO SHEET =================
 async function submitData(){
-  // ... existing code remains unchanged ...
-  if (j.status && j.status === 'success') {
-    lastInvoiceData = { 
-      customerName: name,
-      mobile: mobile,
-      item: item,
-      qty: qty,
-      price: price,
-      total: (qty*price).toFixed(2),
-      invoice: j.invoice || ''
-    };
-    msgArea.innerHTML = '<div class="success">Saved ✓ Invoice: ' + (j.invoice || '') + '</div>';
-    // clear inputs
-    __('customerName').value = '';
-    __('mobile').value = '';
-    __('item').value = '';
-    __('qty').value = 1;
-    __('price').value = 0;
-    updatePreview();
+  const name = __('customerName').value.trim();
+  const mobile = __('mobile').value.trim();
+  const item = __('item').value.trim();
+  const qty = Number(__('qty').value) || 0;
+  const price = Number(__('price').value) || 0;
+  const msgArea = __('msgArea');
+  msgArea.innerHTML = '';
+
+  // Validation
+  if (!item || qty<=0 || price<=0){
+    msgArea.innerHTML = '<div class="error">Please enter item, quantity and price (qty & price > 0).</div>';
+    return;
   }
-  // ... rest unchanged ...
+
+  __('saveBtn').disabled = true;
+  __('saveBtn').innerText = 'Saving...';
+
+  const params = new URLSearchParams();
+  params.append('customerName', name);
+  params.append('mobile', mobile);
+  params.append('item', item);
+  params.append('qty', qty);
+  params.append('price', price);
+  params.append('secret', SECRET);
+
+  try {
+    const resp = await fetch(WEB_APP_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8' },
+      body: params.toString()
+    });
+    const text = await resp.text();
+    let j;
+    try { j = JSON.parse(text); } catch(e){ j = { status:'error', message: text }; }
+
+    if (j.status && j.status === 'success') {
+      // ✅ store last invoice
+      lastInvoiceData = { 
+        customerName: name,
+        mobile: mobile,
+        item: item,
+        qty: qty,
+        price: price,
+        total: (qty*price).toFixed(2),
+        invoice: j.invoice || ''
+      };
+
+      msgArea.innerHTML = '<div class="success">Saved ✓ Invoice: ' + (j.invoice || '') + '</div>';
+
+      // clear inputs
+      __('customerName').value = '';
+      __('mobile').value = '';
+      __('item').value = '';
+      __('qty').value = 1;
+      __('price').value = 0;
+      updatePreview();
+    } else {
+      msgArea.innerHTML = '<div class="error">Error: ' + (j.message || 'Unknown') + '</div>';
+    }
+  } catch (err) {
+    msgArea.innerHTML = '<div class="error">Network/Server error: ' + err.message + '</div>';
+  } finally {
+    __('saveBtn').disabled = false;
+    __('saveBtn').innerText = 'Save to Sheet';
+  }
 }
 
-// Print invoice in billing format
+// ================= PRINT INVOICE =================
 function printInvoice(){
   if(!lastInvoiceData){
     alert("No invoice to print. Save first!");
@@ -388,11 +533,14 @@ function printInvoice(){
   printWindow.print();
 }
 
-// Download invoice as PDF using browser print
+// ================= DOWNLOAD INVOICE =================
 function downloadInvoice(){
-  printInvoice(); // Browsers allow "Save as PDF" in print dialog
+  // Just trigger print dialog, user can choose "Save as PDF"
+  printInvoice();
 }
 
+
+  
 </script>
 </body>
 </html>
