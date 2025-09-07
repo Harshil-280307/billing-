@@ -5,498 +5,115 @@
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Billing Entry</title>
   <style>
-    :root{
-      --bg:#f4f7fb;
-      --card:#fff;
-      --accent:#2b9bd7;
-      --accent2:#60c0e8;
-      --shadow:0 8px 30px rgba(32,41,50,0.08);
-      --shadow-focus:0 6px 18px rgba(43,155,215,0.12);
-    }
-    
-    * {
-      box-sizing: border-box;
-    }
-    
-    body{
-      font-family:Inter,Segoe UI,Roboto,Arial;
-      margin:0;
-      background:linear-gradient(180deg,#e6f7ff, #f4f7fb);
-      min-height:100vh;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      padding:16px;
-    }
-    
-    .wrap{
-      width:100%;
-      max-width:980px;
-      display:grid;
-      grid-template-columns:1fr;
-      gap:20px;
-    }
-    
-    .card{
-      background:var(--card);
-      border-radius:12px;
-      padding:20px;
-      box-shadow:var(--shadow);
-      width:100%;
-    }
-    
-    h1{
-      margin:0 0 16px;
-      font-size:clamp(18px, 4vw, 20px);
-      color:#123;
-      display:flex;
-      align-items:center;
-      flex-wrap:wrap;
-      gap:8px;
-    }
-    
-    label{
-      display:block;
-      margin-top:12px;
-      margin-bottom:6px;
-      font-size:13px;
-      color:#334;
-      font-weight:500;
-    }
-    
-    input{
-      width:100%;
-      padding:10px 12px;
-      border-radius:8px;
-      border:1px solid #d6e6f2;
-      outline:none;
-      font-size:14px;
-      transition:all 0.2s ease;
-    }
-    
-    input:focus{
-      box-shadow:var(--shadow-focus);
-      border-color:var(--accent);
-    }
-    
-    .btn{
-      display:inline-block;
-      margin-top:16px;
-      padding:12px 24px;
-      border-radius:10px;
-      background:linear-gradient(90deg,var(--accent),var(--accent2));
-      color:#fff;
-      border:none;
-      font-weight:600;
-      cursor:pointer;
-      font-size:15px;
-      width:100%;
-      transition:transform 0.2s ease, box-shadow 0.2s ease;
-    }
-    
-    .btn:hover:not(:disabled){
-      transform:translateY(-1px);
-      box-shadow:0 4px 12px rgba(43,155,215,0.3);
-    }
-    
-    .btn:disabled{
-      opacity:0.7;
-      cursor:not-allowed;
-    }
-    
-    .muted{
-      color:#6b7a85;
-      font-size:13px;
-      margin-top:12px;
-      line-height:1.5;
-    }
-    
-    .preview{
-      background:#fbfdff;
-      border-radius:8px;
-      padding:16px;
-      border:1px solid #e6f7ff;
-    }
-    
-    .preview p{
-      margin:8px 0;
-      display:flex;
-      justify-content:space-between;
-      align-items:center;
-      flex-wrap:wrap;
-      gap:8px;
-    }
-    
-    .preview hr{
-      border:none;
-      border-top:1px solid #e6f7ff;
-      margin:12px 0;
-    }
-    
-    .row{
-      display:grid;
-      grid-template-columns:1fr;
-      gap:12px;
-    }
-    
-    .small{
-      font-size:13px;
-      color:#445;
-      word-break:break-word;
-    }
-    
-    .success{
-      color:#16a34a;
-      margin-top:12px;
-      font-weight:600;
-      padding:12px;
-      background:#f0fdf4;
-      border-radius:8px;
-      border:1px solid #86efac;
-      animation:slideIn 0.3s ease;
-    }
-    
-    .error{
-      color:#b00020;
-      margin-top:12px;
-      font-weight:600;
-      padding:12px;
-      background:#fef2f2;
-      border-radius:8px;
-      border:1px solid #fca5a5;
-      animation:slideIn 0.3s ease;
-    }
-    
-    @keyframes slideIn{
-      from{
-        opacity:0;
-        transform:translateY(-10px);
-      }
-      to{
-        opacity:1;
-        transform:translateY(0);
-      }
-    }
-    
-    /* Mobile-first responsive design */
-    @media (min-width: 480px){
-      body{
-        padding:20px;
-      }
-      
-      .row{
-        grid-template-columns:1fr 140px;
-      }
-    }
-    
-    @media (min-width: 640px){
-      body{
-        padding:24px;
-      }
-      
-      .wrap{
-        gap:24px;
-      }
-      
-      .card{
-        padding:24px;
-      }
-      
-      .btn{
-        width:auto;
-        padding:10px 20px;
-      }
-      
-      .row{
-        grid-template-columns:1fr 160px;
-      }
-    }
-    
-    @media (min-width: 768px){
-      .wrap{
-        grid-template-columns:1.2fr 1fr;
-      }
-      
-      h1{
-        font-size:20px;
-      }
-    }
-    
-    @media (min-width: 1024px){
-      .wrap{
-        grid-template-columns:1fr 360px;
-      }
-      
-      .card{
-        padding:28px;
-      }
-    }
-    
-    /* Touch-friendly adjustments for mobile */
-    @media (hover: none) and (pointer: coarse){
-      input{
-        font-size:16px; /* Prevents zoom on iOS */
-        padding:12px;
-      }
-      
-      .btn{
-        padding:14px 24px;
-      }
-    }
-    
-    /* Print styles */
-    @media print{
-      body{
-        background:white;
-      }
-      
-      .card{
-        box-shadow:none;
-        border:1px solid #ddd;
-      }
-      
-      .btn{
-        display:none;
-      }
-    }
-    
-    /* Landscape orientation adjustments */
-    @media (orientation: landscape) and (max-height: 500px){
-      body{
-        padding:12px;
-        align-items:flex-start;
-      }
-      
-      .wrap{
-        margin-top:20px;
-      }
-    }
-    
-    /* Dark mode support */
-    @media (prefers-color-scheme: dark){
-      :root{
-        --bg:#0f172a;
-        --card:#1e293b;
-        --accent:#38bdf8;
-        --accent2:#0ea5e9;
-      }
-      
-      body{
-        background:linear-gradient(180deg,#0f172a, #1e293b);
-      }
-      
-      h1{
-        color:#f1f5f9;
-      }
-      
-      label{
-        color:#cbd5e1;
-      }
-      
-      input{
-        background:#334155;
-        border-color:#475569;
-        color:#f1f5f9;
-      }
-      
-      input:focus{
-        border-color:var(--accent);
-      }
-      
-      .preview{
-        background:#0f172a;
-        border-color:#334155;
-      }
-      
-      .muted{
-        color:#94a3b8;
-      }
-      
-      .small{
-        color:#cbd5e1;
-      }
-      
-      .success{
-        background:#064e3b;
-        border-color:#10b981;
-        color:#86efac;
-      }
-      
-      .error{
-        background:#7f1d1d;
-        border-color:#ef4444;
-        color:#fca5a5;
-      }
-    }
-    
-    /* Loading spinner */
-    .spinner{
-      display:inline-block;
-      width:16px;
-      height:16px;
-      border:2px solid #fff;
-      border-radius:50%;
-      border-top-color:transparent;
-      animation:spin 0.8s linear infinite;
-      margin-left:8px;
-    }
-    
-    @keyframes spin{
-      to{transform:rotate(360deg);}
-    }
-    
-    /* Accessibility improvements */
-    .visually-hidden{
-      position:absolute;
-      width:1px;
-      height:1px;
-      padding:0;
-      margin:-1px;
-      overflow:hidden;
-      clip:rect(0,0,0,0);
-      white-space:nowrap;
-      border:0;
-    }
-    
-    input:focus-visible{
-      outline:2px solid var(--accent);
-      outline-offset:2px;
-    }
-    
-    .btn:focus-visible{
-      outline:2px solid var(--accent2);
-      outline-offset:2px;
-    }
+    :root{--bg:#f4f7fb;--card:#fff;--accent:#2b9bd7;--accent2:#60c0e8}
+    body{font-family:Inter,Segoe UI,Roboto,Arial;margin:0;background:linear-gradient(180deg,#e6f7ff, #f4f7fb);min-height:100vh;display:flex;align-items:center;justify-content:center;padding:24px}
+    .wrap{width:980px;display:grid;grid-template-columns:1fr 360px;gap:24px}
+    .card{background:var(--card);border-radius:12px;padding:20px;box-shadow:0 8px 30px rgba(32,41,50,0.08)}
+    h1{margin:0 0 8px;font-size:20px;color:#123}
+    label{display:block;margin-top:12px;font-size:13px;color:#334}
+    input{width:100%;padding:10px;border-radius:8px;border:1px solid #d6e6f2;outline:none;font-size:14px}
+    input:focus{box-shadow:0 6px 18px rgba(43,155,215,0.12);border-color:var(--accent)}
+    .btn{display:inline-block;margin-top:16px;padding:10px 14px;border-radius:10px;background:linear-gradient(90deg,var(--accent),var(--accent2));color:#fff;border:none;font-weight:600;cursor:pointer}
+    .muted{color:#6b7a85;font-size:13px}
+    .preview{background:#fbfdff;border-radius:8px;padding:14px;border:1px solid #e6f7ff}
+    .row{display:flex;gap:8px}
+    .small{font-size:13px;color:#445}
+    .success{color:green;margin-top:10px;font-weight:600}
+    .error{color:#b00020;margin-top:10px;font-weight:600}
   </style>
 </head>
 <body>
   <div class="wrap">
     <div class="card">
-      <h1>📊 New Bill — Enter Details</h1>
+      <h1>New Bill — Enter Details</h1>
 
-      <label for="customerName">Customer Name</label>
-      <input id="customerName" type="text" oninput="updatePreview()" placeholder="e.g. Ramesh Kumar" autocomplete="name">
+      <label>Customer Name</label>
+      <input id="customerName" oninput="updatePreview()" placeholder="e.g. Ramesh Kumar">
 
-      <label for="mobile">Mobile</label>
-      <input id="mobile" type="tel" oninput="updatePreview()" placeholder="10-digit mobile" autocomplete="tel" pattern="[0-9]{10}">
+      <label>Mobile</label>
+      <input id="mobile" oninput="updatePreview()" placeholder="10-digit mobile">
 
-      <label for="item">Item / Service</label>
-      <input id="item" type="text" oninput="updatePreview()" placeholder="e.g. Haircut" autocomplete="off">
+      <label>Item / Service</label>
+      <input id="item" oninput="updatePreview()" placeholder="e.g. Haircut">
 
       <div class="row">
-        <div>
-          <label for="qty">Quantity</label>
-          <input id="qty" type="number" min="1" value="1" oninput="updatePreview()" autocomplete="off">
+        <div style="flex:1">
+          <label>Qty</label>
+          <input id="qty" type="number" min="0" value="1" oninput="updatePreview()">
         </div>
-        <div>
-          <label for="price">Price (₹)</label>
-          <input id="price" type="number" min="0" step="0.01" value="0" oninput="updatePreview()" autocomplete="off">
+        <div style="width:140px">
+          <label>Price</label>
+          <input id="price" type="number" min="0" value="0" oninput="updatePreview()">
         </div>
       </div>
 
-      <button class="btn" id="saveBtn" onclick="submitData()" aria-label="Save billing data to Google Sheet">
-        <span id="btnText">Save to Sheet</span>
-        <span id="btnSpinner" class="spinner" style="display:none"></span>
-      </button>
+      <button class="btn" id="saveBtn" onclick="submitData()">Save to Sheet</button>
 
-      <div id="msgArea" role="alert" aria-live="polite"></div>
+      <div id="msgArea"></div>
       <p class="muted">Records are saved to your Google Sheet. You can print the sheet or build reports later.</p>
     </div>
 
     <!-- Preview panel -->
     <div class="card">
-      <h1>📝 Live Preview</h1>
-      <div class="preview" aria-label="Billing preview">
-        <p>
-          <strong>Customer:</strong>
-          <span id="pvName" class="small">—</span>
-        </p>
-        <p>
-          <strong>Mobile:</strong>
-          <span id="pvMobile" class="small">—</span>
-        </p>
-        <p>
-          <strong>Item:</strong>
-          <span id="pvItem" class="small">—</span>
-        </p>
-        <p>
-          <strong>Qty:</strong>
-          <span id="pvQty" class="small">1</span>
-        </p>
-        <p>
-          <strong>Price:</strong>
-          <span class="small">₹ <span id="pvPrice">0</span></span>
-        </p>
+      <h1>📝 Data Entry Note (Live Preview)</h1>
+      <div class="preview">
+        <p><strong>Customer:</strong> <span id="pvName" class="small"></span></p>
+        <p><strong>Mobile:</strong> <span id="pvMobile" class="small"></span></p>
+        <p><strong>Item:</strong> <span id="pvItem" class="small"></span></p>
+        <p><strong>Qty:</strong> <span id="pvQty" class="small"></span></p>
+        <p><strong>Price:</strong> ₹ <span id="pvPrice" class="small"></span></p>
         <hr>
-        <p>
-          <strong>Total:</strong>
-          <span style="font-size:18px;font-weight:700;color:var(--accent)">₹ <span id="pvTotal">0.00</span></span>
-        </p>
+        <p><strong>Total:</strong> ₹ <span id="pvTotal" style="font-size:18px;font-weight:700"></span></p>
       </div>
 
-      <div class="muted" style="margin-top:14px">
-        <strong>Quick test:</strong> Change fields to see live preview. Data saves only when you click "Save to Sheet".
+      <div style="margin-top:14px" class="muted">
+        <strong>Quick test (no save):</strong> change fields and see preview above.
       </div>
     </div>
   </div>
 
 <script>
   // ========== CONFIG - replace these ==========
-  const WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbzbluN5AvAAHwtEaAuflFeTO7ldUaELJnr3sDKLZDEFS53w0W5rbPWJvFt8GlcWuyE9XA/exec';
-  const SECRET = 'e404';
+  const WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbzbluN5AvAAHwtEaAuflFeTO7ldUaELJnr3sDKLZDEFS53w0W5rbPWJvFt8GlcWuyE9XA/exec';   // put your Apps Script /exec URL
+  const SECRET = 'e404';            // must match WRITE_SECRET in Code.gs
   // =============================================
 
   function __(id){return document.getElementById(id)}
 
   function updatePreview(){
-    const name = __('customerName').value || '—';
-    const mobile = __('mobile').value || '—';
-    const item = __('item').value || '—';
+    const name = __('customerName').value;
+    const mobile = __('mobile').value;
+    const item = __('item').value;
     const qty = Number(__('qty').value) || 0;
     const price = Number(__('price').value) || 0;
-    
-    __('pvName').textContent = name;
-    __('pvMobile').textContent = mobile;
-    __('pvItem').textContent = item;
-    __('pvQty').textContent = qty;
-    __('pvPrice').textContent = price.toFixed(2);
-    __('pvTotal').textContent = (qty * price).toFixed(2);
+    __('pvName').innerText = name;
+    __('pvMobile').innerText = mobile;
+    __('pvItem').innerText = item;
+    __('pvQty').innerText = qty;
+    __('pvPrice').innerText = price;
+    __('pvTotal').innerText = (qty*price).toFixed(2);
   }
-  
-  // Initialize preview
   updatePreview();
 
   async function submitData(){
+    // small validation
     const name = __('customerName').value.trim();
     const mobile = __('mobile').value.trim();
     const item = __('item').value.trim();
     const qty = Number(__('qty').value) || 0;
     const price = Number(__('price').value) || 0;
     const msgArea = __('msgArea');
-    
     msgArea.innerHTML = '';
 
-    // Validation
-    if (!item || qty <= 0 || price <= 0){
-      msgArea.innerHTML = '<div class="error">⚠️ Please enter item, quantity and price (qty & price > 0).</div>';
-      return;
-    }
-    
-    if (mobile && mobile.length !== 10){
-      msgArea.innerHTML = '<div class="error">⚠️ Mobile number should be 10 digits.</div>';
+    if (!item || qty<=0 || price<=0){
+      msgArea.innerHTML = '<div class="error">Please enter item, quantity and price (qty & price > 0).</div>';
       return;
     }
 
-    // Update button state
-    const btn = __('saveBtn');
-    const btnText = __('btnText');
-    const btnSpinner = __('btnSpinner');
-    
-    btn.disabled = true;
-    btnText.textContent = 'Saving';
-    btnSpinner.style.display = 'inline-block';
+    __('saveBtn').disabled = true;
+    __('saveBtn').innerText = 'Saving...';
 
-    // Prepare data
+    // Use form-encoded body to avoid preflight (simple request)
     const params = new URLSearchParams();
     params.append('customerName', name);
     params.append('mobile', mobile);
@@ -511,64 +128,28 @@
         headers: { 'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8' },
         body: params.toString()
       });
-      
       const text = await resp.text();
-      let result;
-      
-      try {
-        result = JSON.parse(text);
-      } catch(e){
-        result = { status: 'error', message: text };
-      }
-      
-      if (result.status === 'success') {
-        msgArea.innerHTML = `<div class="success">✅ Saved successfully! Invoice: ${result.invoice || 'N/A'}</div>`;
-        
-        // Clear form
+      let j;
+      try { j = JSON.parse(text); } catch(e){ j = { status:'error', message: text }; }
+      if (j.status && j.status === 'success') {
+        msgArea.innerHTML = '<div class="success">Saved ✓ Invoice: ' + (j.invoice || '') + '</div>';
+        // clear inputs
         __('customerName').value = '';
         __('mobile').value = '';
         __('item').value = '';
-        __('qty').value = ;
+        __('qty').value = 1;
         __('price').value = 0;
         updatePreview();
-        
-        // Focus on first field for quick next entry
-        __('customerName').focus();
       } else {
-        msgArea.innerHTML = `<div class="error">❌ Error: ${result.message || 'Unknown error occurred'}</div>`;
+        msgArea.innerHTML = '<div class="error">Error: ' + (j.message || 'Unknown') + '</div>';
       }
     } catch (err) {
-      msgArea.innerHTML = `<div class="error">❌ Network error: ${err.message}</div>`;
+      msgArea.innerHTML = '<div class="error">Network/Server error: ' + err.message + '</div>';
     } finally {
-      btn.disabled = false;
-      btnText.textContent = 'Save to Sheet';
-      btnSpinner.style.display = 'none';
+      __('saveBtn').disabled = false;
+      __('saveBtn').innerText = 'Save to Sheet';
     }
   }
-  
-  // Add keyboard shortcut for save (Ctrl/Cmd + Enter)
-  document.addEventListener('keydown', function(e) {
-    if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') {
-      submitData();
-    }
-  });
-  
-  // Add input validation
-  __('mobile').addEventListener('input', function(e) {
-    this.value = this.value.replace(/\D/g, '').slice(0, 10);
-  });
-  
-  // Prevent negative values in number inputs
-  __('qty').addEventListener('input', function(e) {
-    if (this.value < 1) this.value = 1;
-  });
-  
-  __('price').addEventListener('input', function(e) {
-    if (this.value < 0) this.value = 0;
-  });
 </script>
 </body>
 </html>
-
-
-
