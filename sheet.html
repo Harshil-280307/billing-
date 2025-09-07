@@ -1,0 +1,156 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Billing Entry</title>
+  <style>
+    :root{--bg:#f4f7fb;--card:#fff;--accent:#2b9bd7;--accent2:#60c0e8}
+    body{font-family:Inter,Segoe UI,Roboto,Arial;margin:0;background:linear-gradient(180deg,#e6f7ff, #f4f7fb);min-height:100vh;display:flex;align-items:center;justify-content:center;padding:24px}
+    .wrap{width:980px;display:grid;grid-template-columns:1fr 360px;gap:24px}
+    .card{background:var(--card);border-radius:12px;padding:20px;box-shadow:0 8px 30px rgba(32,41,50,0.08)}
+    h1{margin:0 0 8px;font-size:20px;color:#123}
+    label{display:block;margin-top:12px;font-size:13px;color:#334}
+    input{width:100%;padding:10px;border-radius:8px;border:1px solid #d6e6f2;outline:none;font-size:14px}
+    input:focus{box-shadow:0 6px 18px rgba(43,155,215,0.12);border-color:var(--accent)}
+    .btn{display:inline-block;margin-top:16px;padding:10px 14px;border-radius:10px;background:linear-gradient(90deg,var(--accent),var(--accent2));color:#fff;border:none;font-weight:600;cursor:pointer}
+    .muted{color:#6b7a85;font-size:13px}
+    .preview{background:#fbfdff;border-radius:8px;padding:14px;border:1px solid #e6f7ff}
+    .row{display:flex;gap:8px}
+    .small{font-size:13px;color:#445}
+    .success{color:green;margin-top:10px;font-weight:600}
+    .error{color:#b00020;margin-top:10px;font-weight:600}
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="card">
+      <h1>New Bill — Enter Details</h1>
+
+      <label>Customer Name</label>
+      <input id="customerName" oninput="updatePreview()" placeholder="e.g. Ramesh Kumar">
+
+      <label>Mobile</label>
+      <input id="mobile" oninput="updatePreview()" placeholder="10-digit mobile">
+
+      <label>Item / Service</label>
+      <input id="item" oninput="updatePreview()" placeholder="e.g. Haircut">
+
+      <div class="row">
+        <div style="flex:1">
+          <label>Qty</label>
+          <input id="qty" type="number" min="0" value="1" oninput="updatePreview()">
+        </div>
+        <div style="width:140px">
+          <label>Price</label>
+          <input id="price" type="number" min="0" value="0" oninput="updatePreview()">
+        </div>
+      </div>
+
+      <button class="btn" id="saveBtn" onclick="submitData()">Save to Sheet</button>
+
+      <div id="msgArea"></div>
+      <p class="muted">Records are saved to your Google Sheet. You can print the sheet or build reports later.</p>
+    </div>
+
+    <!-- Preview panel -->
+    <div class="card">
+      <h1>📝 Data Entry Note (Live Preview)</h1>
+      <div class="preview">
+        <p><strong>Customer:</strong> <span id="pvName" class="small"></span></p>
+        <p><strong>Mobile:</strong> <span id="pvMobile" class="small"></span></p>
+        <p><strong>Item:</strong> <span id="pvItem" class="small"></span></p>
+        <p><strong>Qty:</strong> <span id="pvQty" class="small"></span></p>
+        <p><strong>Price:</strong> ₹ <span id="pvPrice" class="small"></span></p>
+        <hr>
+        <p><strong>Total:</strong> ₹ <span id="pvTotal" style="font-size:18px;font-weight:700"></span></p>
+      </div>
+
+      <div style="margin-top:14px" class="muted">
+        <strong>Quick test (no save):</strong> change fields and see preview above.
+      </div>
+    </div>
+  </div>
+
+<script>
+  // ========== CONFIG - replace these ==========
+  const WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbyN00CyrCR-UGpcNdgtOx07YQXuEPIFpyiL0z382BHcjlMj-oY6_FG_dMEX1-AvPV2EMw/exec';   // put your Apps Script /exec URL
+  const SECRET = 'e404';            // must match WRITE_SECRET in Code.gs
+  // =============================================
+
+  function __(id){return document.getElementById(id)}
+
+  function updatePreview(){
+    const name = __('customerName').value;
+    const mobile = __('mobile').value;
+    const item = __('item').value;
+    const qty = Number(__('qty').value) || 0;
+    const price = Number(__('price').value) || 0;
+    __('pvName').innerText = name;
+    __('pvMobile').innerText = mobile;
+    __('pvItem').innerText = item;
+    __('pvQty').innerText = qty;
+    __('pvPrice').innerText = price;
+    __('pvTotal').innerText = (qty*price).toFixed(2);
+  }
+  updatePreview();
+
+  async function submitData(){
+    // small validation
+    const name = __('customerName').value.trim();
+    const mobile = __('mobile').value.trim();
+    const item = __('item').value.trim();
+    const qty = Number(__('qty').value) || 0;
+    const price = Number(__('price').value) || 0;
+    const msgArea = __('msgArea');
+    msgArea.innerHTML = '';
+
+    if (!item || qty<=0 || price<=0){
+      msgArea.innerHTML = '<div class="error">Please enter item, quantity and price (qty & price > 0).</div>';
+      return;
+    }
+
+    __('saveBtn').disabled = true;
+    __('saveBtn').innerText = 'Saving...';
+
+    // Use form-encoded body to avoid preflight (simple request)
+    const params = new URLSearchParams();
+    params.append('customerName', name);
+    params.append('mobile', mobile);
+    params.append('item', item);
+    params.append('qty', qty);
+    params.append('price', price);
+    params.append('secret', SECRET);
+
+    try {
+      const resp = await fetch(WEB_APP_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8' },
+        body: params.toString()
+      });
+      const text = await resp.text();
+      let j;
+      try { j = JSON.parse(text); } catch(e){ j = { status:'error', message: text }; }
+      if (j.status && j.status === 'success') {
+        msgArea.innerHTML = '<div class="success">Saved ✓ Invoice: ' + (j.invoice || '') + '</div>';
+        // clear inputs
+        __('customerName').value = '';
+        __('mobile').value = '';
+        __('item').value = '';
+        __('qty').value = 1;
+        __('price').value = 0;
+        updatePreview();
+      } else {
+        msgArea.innerHTML = '<div class="error">Error: ' + (j.message || 'Unknown') + '</div>';
+      }
+    } catch (err) {
+      msgArea.innerHTML = '<div class="error">Network/Server error: ' + err.message + '</div>';
+    } finally {
+      __('saveBtn').disabled = false;
+      __('saveBtn').innerText = 'Save to Sheet';
+    }
+  }
+</script>
+</body>
+</html>
+
