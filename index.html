@@ -14,9 +14,7 @@
       --shadow-focus:0 6px 18px rgba(43,155,215,0.12);
     }
     
-    * {
-      box-sizing: border-box;
-    }
+    * { box-sizing: border-box; }
     
     body{
       font-family:Inter,Segoe UI,Roboto,Arial;
@@ -168,168 +166,34 @@
     }
     
     @keyframes slideIn{
-      from{
-        opacity:0;
-        transform:translateY(-10px);
-      }
-      to{
-        opacity:1;
-        transform:translateY(0);
-      }
+      from{opacity:0; transform:translateY(-10px);}
+      to{opacity:1; transform:translateY(0);}
     }
     
-    /* Mobile-first responsive design */
-    @media (min-width: 480px){
-      body{
-        padding:20px;
-      }
-      
-      .row{
-        grid-template-columns:1fr 140px;
-      }
-    }
+    @media (min-width: 480px){ body{ padding:20px;} .row{grid-template-columns:1fr 140px;} }
+    @media (min-width: 640px){ body{ padding:24px;} .wrap{gap:24px;} .card{padding:24px;} .btn{width:auto; padding:10px 20px;} .row{grid-template-columns:1fr 160px;} }
+    @media (min-width: 768px){ .wrap{grid-template-columns:1.2fr 1fr;} h1{font-size:20px;} }
+    @media (min-width: 1024px){ .wrap{grid-template-columns:1fr 360px;} .card{padding:28px;} }
     
-    @media (min-width: 640px){
-      body{
-        padding:24px;
-      }
-      
-      .wrap{
-        gap:24px;
-      }
-      
-      .card{
-        padding:24px;
-      }
-      
-      .btn{
-        width:auto;
-        padding:10px 20px;
-      }
-      
-      .row{
-        grid-template-columns:1fr 160px;
-      }
-    }
+    @media (hover: none) and (pointer: coarse){ input{font-size:16px; padding:12px;} .btn{padding:14px 24px;} }
     
-    @media (min-width: 768px){
-      .wrap{
-        grid-template-columns:1.2fr 1fr;
-      }
-      
-      h1{
-        font-size:20px;
-      }
-    }
+    @media print{ body{background:white;} .card{box-shadow:none; border:1px solid #ddd;} .btn{display:none;} }
+    @media (orientation: landscape) and (max-height: 500px){ body{padding:12px; align-items:flex-start;} .wrap{margin-top:20px;} }
     
-    @media (min-width: 1024px){
-      .wrap{
-        grid-template-columns:1fr 360px;
-      }
-      
-      .card{
-        padding:28px;
-      }
-    }
-    
-    /* Touch-friendly adjustments for mobile */
-    @media (hover: none) and (pointer: coarse){
-      input{
-        font-size:16px; /* Prevents zoom on iOS */
-        padding:12px;
-      }
-      
-      .btn{
-        padding:14px 24px;
-      }
-    }
-    
-    /* Print styles */
-    @media print{
-      body{
-        background:white;
-      }
-      
-      .card{
-        box-shadow:none;
-        border:1px solid #ddd;
-      }
-      
-      .btn{
-        display:none;
-      }
-    }
-    
-    /* Landscape orientation adjustments */
-    @media (orientation: landscape) and (max-height: 500px){
-      body{
-        padding:12px;
-        align-items:flex-start;
-      }
-      
-      .wrap{
-        margin-top:20px;
-      }
-    }
-    
-    /* Dark mode support */
     @media (prefers-color-scheme: dark){
-      :root{
-        --bg:#0f172a;
-        --card:#1e293b;
-        --accent:#38bdf8;
-        --accent2:#0ea5e9;
-      }
-      
-      body{
-        background:linear-gradient(180deg,#0f172a, #1e293b);
-      }
-      
-      h1{
-        color:#f1f5f9;
-      }
-      
-      label{
-        color:#cbd5e1;
-      }
-      
-      input{
-        background:#334155;
-        border-color:#475569;
-        color:#f1f5f9;
-      }
-      
-      input:focus{
-        border-color:var(--accent);
-      }
-      
-      .preview{
-        background:#0f172a;
-        border-color:#334155;
-      }
-      
-      .muted{
-        color:#94a3b8;
-      }
-      
-      .small{
-        color:#cbd5e1;
-      }
-      
-      .success{
-        background:#064e3b;
-        border-color:#10b981;
-        color:#86efac;
-      }
-      
-      .error{
-        background:#7f1d1d;
-        border-color:#ef4444;
-        color:#fca5a5;
-      }
+      :root{--bg:#0f172a; --card:#1e293b; --accent:#38bdf8; --accent2:#0ea5e9;}
+      body{background:linear-gradient(180deg,#0f172a, #1e293b);}
+      h1{color:#f1f5f9;}
+      label{color:#cbd5e1;}
+      input{background:#334155; border-color:#475569; color:#f1f5f9;}
+      input:focus{border-color:var(--accent);}
+      .preview{background:#0f172a; border-color:#334155;}
+      .muted{color:#94a3b8;}
+      .small{color:#cbd5e1;}
+      .success{background:#064e3b; border-color:#10b981; color:#86efac;}
+      .error{background:#7f1d1d; border-color:#ef4444; color:#fca5a5;}
     }
     
-    /* Loading spinner */
     .spinner{
       display:inline-block;
       width:16px;
@@ -341,32 +205,10 @@
       margin-left:8px;
     }
     
-    @keyframes spin{
-      to{transform:rotate(360deg);}
-    }
-    
-    /* Accessibility improvements */
-    .visually-hidden{
-      position:absolute;
-      width:1px;
-      height:1px;
-      padding:0;
-      margin:-1px;
-      overflow:hidden;
-      clip:rect(0,0,0,0);
-      white-space:nowrap;
-      border:0;
-    }
-    
-    input:focus-visible{
-      outline:2px solid var(--accent);
-      outline-offset:2px;
-    }
-    
-    .btn:focus-visible{
-      outline:2px solid var(--accent2);
-      outline-offset:2px;
-    }
+    @keyframes spin{ to{transform:rotate(360deg);} }
+    .visually-hidden{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0;}
+    input:focus-visible{outline:2px solid var(--accent); outline-offset:2px;}
+    .btn:focus-visible{outline:2px solid var(--accent2); outline-offset:2px;}
   </style>
 </head>
 <body>
@@ -399,41 +241,26 @@
         <span id="btnSpinner" class="spinner" style="display:none"></span>
       </button>
 
+      <button class="btn" id="printLastBtn" onclick="printLastInvoice()" disabled>
+        🖨️ Print Last Invoice
+      </button>
+
       <div id="msgArea" role="alert" aria-live="polite"></div>
-      <p class="muted">Records are saved to your Google Sheet. You can print the sheet or build reports later.</p>
+      <p class="muted">Records are saved to your Google Sheet. You can print the last invoice using the button above.</p>
     </div>
 
     <!-- Preview panel -->
     <div class="card">
       <h1>📝 Live Preview</h1>
       <div class="preview" aria-label="Billing preview">
-        <p>
-          <strong>Customer:</strong>
-          <span id="pvName" class="small">—</span>
-        </p>
-        <p>
-          <strong>Mobile:</strong>
-          <span id="pvMobile" class="small">—</span>
-        </p>
-        <p>
-          <strong>Item:</strong>
-          <span id="pvItem" class="small">—</span>
-        </p>
-        <p>
-          <strong>Qty:</strong>
-          <span id="pvQty" class="small">1</span>
-        </p>
-        <p>
-          <strong>Price:</strong>
-          <span class="small">₹ <span id="pvPrice">0</span></span>
-        </p>
+        <p><strong>Customer:</strong> <span id="pvName" class="small">—</span></p>
+        <p><strong>Mobile:</strong> <span id="pvMobile" class="small">—</span></p>
+        <p><strong>Item:</strong> <span id="pvItem" class="small">—</span></p>
+        <p><strong>Qty:</strong> <span id="pvQty" class="small">1</span></p>
+        <p><strong>Price:</strong> <span class="small">₹ <span id="pvPrice">0</span></span></p>
         <hr>
-        <p>
-          <strong>Total:</strong>
-          <span style="font-size:18px;font-weight:700;color:var(--accent)">₹ <span id="pvTotal">0.00</span></span>
-        </p>
+        <p><strong>Total:</strong> <span style="font-size:18px;font-weight:700;color:var(--accent)">₹ <span id="pvTotal">0.00</span></span></p>
       </div>
-
       <div class="muted" style="margin-top:14px">
         <strong>Quick test:</strong> Change fields to see live preview. Data saves only when you click "Save to Sheet".
       </div>
@@ -441,12 +268,12 @@
   </div>
 
 <script>
-  // ========== CONFIG - replace these ==========
   const WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbzbluN5AvAAHwtEaAuflFeTO7ldUaELJnr3sDKLZDEFS53w0W5rbPWJvFt8GlcWuyE9XA/exec';
   const SECRET = 'e404';
-  // =============================================
 
-  function __(id){return document.getElementById(id)}
+  let lastInvoiceUrl = ''; // store last saved invoice URL
+
+  function __(id){ return document.getElementById(id); }
 
   function updatePreview(){
     const name = __('customerName').value || '—';
@@ -462,8 +289,7 @@
     __('pvPrice').textContent = price.toFixed(2);
     __('pvTotal').textContent = (qty * price).toFixed(2);
   }
-  
-  // Initialize preview
+
   updatePreview();
 
   async function submitData(){
@@ -476,7 +302,6 @@
     
     msgArea.innerHTML = '';
 
-    // Validation
     if (!item || qty <= 0 || price <= 0){
       msgArea.innerHTML = '<div class="error">⚠️ Please enter item, quantity and price (qty & price > 0).</div>';
       return;
@@ -487,16 +312,13 @@
       return;
     }
 
-    // Update button state
     const btn = __('saveBtn');
     const btnText = __('btnText');
     const btnSpinner = __('btnSpinner');
-    
     btn.disabled = true;
     btnText.textContent = 'Saving';
     btnSpinner.style.display = 'inline-block';
 
-    // Prepare data
     const params = new URLSearchParams();
     params.append('customerName', name);
     params.append('mobile', mobile);
@@ -511,29 +333,26 @@
         headers: { 'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8' },
         body: params.toString()
       });
-      
+
       const text = await resp.text();
       let result;
-      
-      try {
-        result = JSON.parse(text);
-      } catch(e){
-        result = { status: 'error', message: text };
-      }
-      
+      try { result = JSON.parse(text); } 
+      catch(e){ result = { status: 'error', message: text }; }
+
       if (result.status === 'success') {
         msgArea.innerHTML = `<div class="success">✅ Saved successfully! Invoice: ${result.invoice || 'N/A'}</div>`;
-        
-        // Clear form
+
         __('customerName').value = '';
         __('mobile').value = '';
         __('item').value = '';
-        __('qty').value = 1;
+        __('qty').value = ;
         __('price').value = 0;
         updatePreview();
-        
-        // Focus on first field for quick next entry
         __('customerName').focus();
+
+        lastInvoiceUrl = result.link;
+        __('printLastBtn').disabled = false;
+
       } else {
         msgArea.innerHTML = `<div class="error">❌ Error: ${result.message || 'Unknown error occurred'}</div>`;
       }
@@ -545,27 +364,20 @@
       btnSpinner.style.display = 'none';
     }
   }
-  
-  // Add keyboard shortcut for save (Ctrl/Cmd + Enter)
+
+  function printLastInvoice() {
+    if (!lastInvoiceUrl) return;
+    const printWindow = window.open(lastInvoiceUrl, '_blank');
+    printWindow.onload = function() { printWindow.print(); };
+  }
+
   document.addEventListener('keydown', function(e) {
-    if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') {
-      submitData();
-    }
+    if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') submitData();
   });
-  
-  // Add input validation
-  __('mobile').addEventListener('input', function(e) {
-    this.value = this.value.replace(/\D/g, '').slice(0, 10);
-  });
-  
-  // Prevent negative values in number inputs
-  __('qty').addEventListener('input', function(e) {
-    if (this.value < 1) this.value = 1;
-  });
-  
-  __('price').addEventListener('input', function(e) {
-    if (this.value < 0) this.value = 0;
-  });
+
+  __('mobile').addEventListener('input', function(){ this.value = this.value.replace(/\D/g, '').slice(0, 10); });
+  __('qty').addEventListener('input', function(){ if(this.value < 1) this.value = 1; });
+  __('price').addEventListener('input', function(){ if(this.value < 0) this.value = 0; });
 </script>
 </body>
 </html>
