@@ -211,6 +211,7 @@ input:focus {
   <button class="btn" id="printBtn" onclick="printInvoice()" style="flex:1; background:#28a745;">🖨 Print Last Invoice</button>
   <button class="btn" id="downloadBtn" onclick="downloadInvoice()" style="flex:1; background:#ff9800;">💾 Download Last Invoice</button>
 </div>
+      <button id="downloadReportBtn">📊 Download Monthly Report</button>
 
 
       <div id="msgArea"></div>
@@ -395,7 +396,7 @@ input:focus {
 
 
 // ========== CONFIG - replace these ==========
-const WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbzbluN5AvAAHwtEaAuflFeTO7ldUaELJnr3sDKLZDEFS53w0W5rbPWJvFt8GlcWuyE9XA/exec'; // put your Apps Script /exec URL
+const WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbyOs0cmoDKw7GLf8w9Zq5QLjyVPo2CIZsYSXHtTu2pzkfQ36uFaeCI0IkXP_9KogcVJ5A/exec'; // put your Apps Script /exec URL
 const SECRET = 'e404'; // must match WRITE_SECRET in Code.gs
 // =============================================
 
@@ -540,7 +541,41 @@ function downloadInvoice(){
 }
 
 
-  
+
+
+
+<script>
+  // Replace with your actual Web App URL
+  const REPORT_API_URL = "https://script.google.com/macros/s/AKfycbyOs0cmoDKw7GLf8w9Zq5QLjyVPo2CIZsYSXHtTu2pzkfQ36uFaeCI0IkXP_9KogcVJ5A/exec";
+
+  document.getElementById("downloadReportBtn").addEventListener("click", async () => {
+    try {
+      // Ask user for month/year (you can make this automatic or use inputs)
+      const month = prompt("Enter month number (1-12):");
+      const year = prompt("Enter year (YYYY):");
+
+      if (!month || !year) {
+        alert("Month and Year are required!");
+        return;
+      }
+
+      // Call backend
+      const res = await fetch(`${REPORT_API_URL}?month=${month}&year=${year}`);
+      const data = await res.json();
+
+      if (data.status === "ok") {
+        // Open PDF link in new tab (download/print ready)
+        window.open(data.url, "_blank");
+      } else {
+        alert("Error: " + data.message);
+      }
+    } catch (err) {
+      console.error(err);
+      alert("Something went wrong generating the report.");
+    }
+  });  
+
+
 </script>
 </body>
 </html>
